@@ -1,0 +1,159 @@
+CREATE TABLE Nave (
+id long auto_increment primary key,
+nome varchar(30) not null,
+tipo varchar(20) not null,
+capienzaPersone int not null,
+postiRimanentiPersone int not null,
+capienzaAutoveicoli int default null,
+postiRimanentiAutoveicoli int default null
+);
+
+CREATE TABLE Corsa (
+id long auto_increment primary key,
+orarioPartenza varchar(20),
+portoPartenza varchar(20),
+orarioArrivo varchar(20),
+portoArrivo varchar(20),
+prezzo double default 0
+);
+
+CREATE TABLE CorsaNavi (
+Naveid long,
+Corsaid long,
+primary key (Naveid,Corsaid),
+foreign key (Naveid) references Nave(id) on update cascade on delete set null,
+foreign key (Corsaid) references Corsa(id) on update cascade on delete set null
+);
+
+CREATE TABLE Prenotazione (
+id long auto_increment primary key,
+Confermata number(1) default 0,
+tipo varchar(20) not null,
+targa varchar(20) default null,
+constraint check_confermata check (Confermata in (1,0))
+);
+
+CREATE TABLE Biglietto (
+id long auto_increment primary key,
+tipo varchar(20) not null,
+data varchar(20),
+ora varchar(20),
+targa varchar(20)
+);
+
+CREATE TABLE Impiegato (
+id long auto_increment primary key,
+Autenticato number(1) default 0,
+constraint check_boolean check (Autenticato in (1,0))
+);
+
+CREATE TABLE BigliettoCorsa (
+Bigliettoid long primary key,
+Corsaid long,
+foreign key (Bigliettoid) references Biglietto(id) on update cascade on delete set null,
+foreign key (Corsaid) references Corsa(id) on update cascade on delete set null
+);
+
+CREATE TABLE PrenotazioneCorsa (
+Prenotazioneid long primary key,
+Corsaid long,
+foreign key (Prenotazioneid) references Prenotazione(id) on update cascade on delete set null,
+foreign key (Corsaid) references Corsa(id) on update cascade on delete set null
+);
+
+CREATE TABLE BigliettoImpiegato (
+Bigliettoid long primary key,
+Impiegatoid long,
+foreign key (Bigliettoid) references Biglietto(id) on update cascade on delete set null,
+foreign key (Impiegatoid) references Impiegato(id) on update cascade on delete set null
+);
+
+INSERT INTO NAVE (id,nome,tipo,capienzaPersone,postiRimanentiPersone) VALUES(1,'Concordia','ALISCAFO',100,100);
+INSERT INTO NAVE VALUES(2,'Nicoloso Da Recco','TRAGHETTO',130,130,10,10);
+INSERT INTO NAVE VALUES(3,'Costa','TRAGHETTO',200,200,50,50);
+INSERT INTO NAVE (id,nome,tipo,capienzaPersone,postiRimanentiPersone ) VALUES(4,'Luca Tarigo','ALISCAFO',110,110);
+INSERT INTO NAVE VALUES(5,'Antonio','TRAGHETTO',150,150,50,50);
+
+INSERT INTO CORSA VALUES (100,'08:00','Napoli','09:00','Genova',30);
+INSERT INTO CORSA VALUES (101,'08:00','Napoli','15:00','Trieste',50);
+INSERT INTO CORSA VALUES (102,'08:00','Napoli','12:00','Livorno',32);
+INSERT INTO CORSA VALUES (103,'08:00','Livorno','10:00','Genova',32);
+INSERT INTO CORSA VALUES (104,'10:00','Livorno','12:00','Napoli',36);
+INSERT INTO CORSA VALUES (105,'12:00','Livorno','10:00','Cagliari',35);
+INSERT INTO CORSA VALUES (106,'17:00','Messina','19:00','Palermo',20);
+INSERT INTO CORSA VALUES (107,'10:00','Napoli','11:00','Palermo',32);
+INSERT INTO CORSA VALUES (108,'08:00','Ravenna','10:00','Trieste',26);
+
+INSERT INTO PRENOTAZIONE VALUES (51,0,'Autoveicolo','ED485KC');
+INSERT INTO PRENOTAZIONE VALUES (52,0,'Autoveicolo','BB03813');
+INSERT INTO PRENOTAZIONE VALUES (53,0,'Autoveicolo','NBC1234');
+INSERT INTO PRENOTAZIONE VALUES (54,0,'Autoveicolo','AA000AA');
+INSERT INTO PRENOTAZIONE (id,Confermata,tipo) VALUES (55,0,'Passeggero');
+INSERT INTO PRENOTAZIONE (id,Confermata,tipo) VALUES (56,0,'Passeggero');
+INSERT INTO PRENOTAZIONE (id,Confermata,tipo) VALUES (57,1,'Passeggero');
+INSERT INTO PRENOTAZIONE (id,Confermata,tipo) VALUES (58,0,'Passeggero');
+
+INSERT INTO BIGLIETTO VALUES (151,'Autoveicolo','21/02/2022','15:01','KAPA777');
+INSERT INTO BIGLIETTO VALUES (152,'Autoveicolo','13/02/2022','10:01','UKPL8TE');
+INSERT INTO BIGLIETTO (id,tipo,data,ora) VALUES (153,'Passeggero','14/02/2022','19:01');
+INSERT INTO BIGLIETTO (id,tipo,data,ora) VALUES (154,'Passeggero','15/02/2022','18:01');
+INSERT INTO BIGLIETTO (id,tipo,data,ora) VALUES (155,'Passeggero','08/03/2022','16:51');
+INSERT INTO BIGLIETTO (id,tipo,data,ora) VALUES (156,'Passeggero','10/05/2022','15:11');
+INSERT INTO BIGLIETTO VALUES (157,'Autoveicolo','16/03/2022','16:04','ABCD012');
+INSERT INTO BIGLIETTO (id,tipo,data,ora) VALUES (158,'Passeggero','10/04/2022','17:00');
+INSERT INTO BIGLIETTO (id,tipo,data,ora) VALUES (159,'Passeggero','21/04/2022','11:10');
+INSERT INTO BIGLIETTO (id,tipo,data,ora) VALUES (160,'Passeggero','11/04/2022','15:11');
+
+INSERT INTO IMPIEGATO VALUES (200,0);
+INSERT INTO IMPIEGATO VALUES (201,0);
+INSERT INTO IMPIEGATO VALUES (202,0);
+INSERT INTO IMPIEGATO VALUES (203,0);
+INSERT INTO IMPIEGATO VALUES (204,0);
+INSERT INTO IMPIEGATO VALUES (205,0);
+
+INSERT INTO CORSANAVI VALUES (2,100);
+INSERT INTO CORSANAVI VALUES (1,102);
+INSERT INTO CORSANAVI VALUES (1,104);
+INSERT INTO CORSANAVI VALUES (1,106);
+INSERT INTO CORSANAVI VALUES (2,101);
+INSERT INTO CORSANAVI VALUES (2,102);
+INSERT INTO CORSANAVI VALUES (3,100);
+INSERT INTO CORSANAVI VALUES (3,106);
+INSERT INTO CORSANAVI VALUES (4,102);
+INSERT INTO CORSANAVI VALUES (5,103);
+INSERT INTO CORSANAVI VALUES (4,104);
+INSERT INTO CORSANAVI VALUES (5,101);
+INSERT INTO CORSANAVI VALUES (5,107);
+INSERT INTO CORSANAVI VALUES (2,108);
+
+INSERT INTO BIGLIETTOCORSA VALUES (151,100);
+INSERT INTO BIGLIETTOCORSA VALUES (152,100);
+INSERT INTO BIGLIETTOCORSA VALUES (153,101);
+INSERT INTO BIGLIETTOCORSA VALUES (154,104);
+INSERT INTO BIGLIETTOCORSA VALUES (155,102);
+INSERT INTO BIGLIETTOCORSA VALUES (156,103);
+INSERT INTO BIGLIETTOCORSA VALUES (157,107);
+INSERT INTO BIGLIETTOCORSA VALUES (158,108);
+INSERT INTO BIGLIETTOCORSA VALUES (159,100);
+INSERT INTO BIGLIETTOCORSA VALUES (160,102);
+
+INSERT INTO PRENOTAZIONECORSA VALUES (51,100);
+INSERT INTO PRENOTAZIONECORSA VALUES (52,103);
+INSERT INTO PRENOTAZIONECORSA VALUES (53,107);
+INSERT INTO PRENOTAZIONECORSA VALUES (54,105);
+INSERT INTO PRENOTAZIONECORSA VALUES (55,100);
+INSERT INTO PRENOTAZIONECORSA VALUES (56,101);
+INSERT INTO PRENOTAZIONECORSA VALUES (57,102);
+INSERT INTO PRENOTAZIONECORSA VALUES (58,104);
+
+INSERT INTO BIGLIETTOIMPIEGATO VALUES (151,200);
+INSERT INTO BIGLIETTOIMPIEGATO VALUES (152,205);
+INSERT INTO BIGLIETTOIMPIEGATO VALUES (153,205);
+INSERT INTO BIGLIETTOIMPIEGATO VALUES (154,203);
+INSERT INTO BIGLIETTOIMPIEGATO VALUES (155,200);
+INSERT INTO BIGLIETTOIMPIEGATO VALUES (156,201);
+INSERT INTO BIGLIETTOIMPIEGATO VALUES (157,202);
+INSERT INTO BIGLIETTOIMPIEGATO VALUES (158,202);
+INSERT INTO BIGLIETTOIMPIEGATO VALUES (159,202);
+INSERT INTO BIGLIETTOIMPIEGATO VALUES (160,202);
+
