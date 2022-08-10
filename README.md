@@ -37,4 +37,4 @@ compagnia, cui il cliente dovrà esibire una stampa della prenotazione che ripor
 estremi della corsa e, eventualmente, la targa del veicolo.
 
 ## Altre informazioni
-Altre informazioni si possono trovare nel paper di riferimento https://github.com/IS-unina/canale_san_giovanni-team_05_ipp/blob/main/Biglietteria%20compagnia%20di%20navigazione.pdf.
+Altre informazioni si possono trovare nel paper di riferimento https://github.com/Cpcode00/ProgettoIS/blob/main/Biglietteria%20Compagnia%20di%20navigazione.pdf.
